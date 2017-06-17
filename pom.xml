@@ -1,0 +1,241 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2017. Lorem ipsum dolor sit amet, consectetur adipiscing elit.                                      ~
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.                       ~
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.                                                  ~
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.                    ~
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.                                                                      ~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>z.z.w</groupId>
+    <artifactId>quickstart</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>quickstart</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.main.runner>z.z.w.App</project.main.runner>
+        <!--<spring.version>4.3.9.RELEASE</spring.version>-->
+        <project.jvm.arguments>
+
+            -server
+            -Xss256K
+            -Xmx3000M
+            -Xms3000M
+            -Xmn1500M
+            -XX:+UseParNewGC
+            -XX:PermSize=500M
+            -XX:+PrintHeapAtGC
+            -XX:SurvivorRatio=1
+            -XX:+PrintGCDetails
+            -XX:MaxPermSize=500M
+            -XX:+DisableExplicitGC
+            -XX:+PrintGCTimeStamps
+            -XX:+UseConcMarkSweepGC
+            -XX:+PrintClassHistogram
+            -XX:+UseFastAccessorMethods
+            -XX:SoftRefLRUPolicyMSPerMB=0
+            -XX:+CMSClassUnloadingEnabled
+            -XX:+CMSParallelRemarkEnabled
+            -XX:LargePageSizeInBytes=128M
+            -XX:CMSFullGCsBeforeCompaction=0
+            -XX:+UseCMSInitiatingOccupancyOnly
+            -XX:+UseCMSCompactAtFullCollection
+            -XX:PretenureSizeThreshold=10000000
+            -XX:CMSInitiatingOccupancyFraction=70
+            -Xloggc:"$BASEDIR"/logs/gc.log
+
+            <!-- -XX:MaxTenuringThreshold=8 去掉該配置 -->
+
+            <!-- -server -->
+            <!-- -Xms4g -Xmx4g -Xmn3g -Xss256k -->
+            <!-- -XX:PermSize=64M -->
+            <!-- -XX:MaxPermSize=64M -->
+            <!-- -XX:+UseConcMarkSweepGC -->
+            <!-- -XX:+UseAdaptiveSizePolicy -->
+            <!-- -XX:+CMSClassUnloadingEnabled -->
+            <!-- -XX:+UseCMSCompactAtFullCollection -->
+            <!-- -XX:+DisableExplicitGC -->
+            <!-- -XX:CMSFullGCsBeforeCompaction=10 -->
+            <!-- -XX:CMSMaxAbortablePrecleanTime=5 -->
+            <!-- -XX:+HeapDumpOnOutOfMemoryError -->
+
+            <!-- -Xms4096M -Xmx4096M -->
+            <!-- -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+DisableExplicitGC -->
+            <!-- -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:ParallelGCThreads=8 -->
+            <!-- -XX:NewSize=128m -XX:MaxNewSize=256m -Xss128k -->
+            <!-- -XX:PermSize=64m -XX:MaxPermSize=128m -->
+            <!-- -XX:SurvivorRatio=14 -XX:TargetSurvivorRatio=90 -XX:MaxTenuringThreshold=16 -->
+
+        </project.jvm.arguments>
+    </properties>
+
+    <dependencies>
+
+
+        <!---->
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.33</version>
+        </dependency>
+
+        <!-- xml、java互轉 -->
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
+
+        <!-- LOGBACK -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+
+        <!-- JUNIT4 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>2.0.2-beta</version>
+            <!--<version>1.10.19</version>-->
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.5</version>
+                <configuration>
+                    <!--<configurationFile>${runtime.env}/generatorConfig.xml</configurationFile>-->
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <configuration>
+                    <configurationDirectory>conf</configurationDirectory>
+                    <assembleDirectory>${project.build.directory}/${project.build.finalName}</assembleDirectory>
+                    <repositoryLayout>flat</repositoryLayout>
+                    <repositoryName>lib</repositoryName>
+                    <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+                    <!--<useAsterikClassPath>true</useAsterikClassPath>-->
+                    <showConsoleWindow>false</showConsoleWindow>
+                    <extraJvmArguments>${project.jvm.arguments}</extraJvmArguments>
+                    <binFileExtensions>
+                        <unix>.sh</unix>
+                    </binFileExtensions>
+                    <platforms>
+                        <!-- <platform>windows</platform> -->
+                        <platform>unix</platform>
+                    </platforms>
+                    <programs>
+                        <program>
+                            <mainClass>${project.main.runner}</mainClass>
+                            <name>start</name>
+                        </program>
+                    </programs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <filters>
+                        <filter>src/main/assembly/filter.properties</filter>
+                    </filters>
+                    <descriptors>
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                    <!--<encoding>UTF-8</encoding> -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- jetty:run -->
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.6.v20170531</version>
+                <configuration>
+                    <scanIntervalSeconds>0</scanIntervalSeconds>
+                    <httpConnector>
+                        <port>6666</port>
+                        <idleTimeout>60000</idleTimeout>
+                    </httpConnector>
+                    <webAppConfig>
+                        <contextPath>/</contextPath>
+                    </webAppConfig>
+                    <stopKey/>
+                    <stopPort/>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- mvn deploy -->
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://127.0.0.1:8888/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://127.0.0.1:8888/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>
